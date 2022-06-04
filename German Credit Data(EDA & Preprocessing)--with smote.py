@@ -13,7 +13,7 @@ If the applicant is a bad credit risk, i.e. is not likely to repay the loan, the
 # In[1]:
 
 
-# pip install xgboost==1.2.0
+# pip install catboost
 
 
 # In[2]:
@@ -21,6 +21,7 @@ If the applicant is a bad credit risk, i.e. is not likely to repay the loan, the
 
 import pandas as pd
 import numpy as np
+
 import matplotlib.pyplot as plt 
 import seaborn as sns
 from plotly.offline import plot
@@ -41,6 +42,7 @@ from sklearn.tree import DecisionTreeClassifier
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.naive_bayes import GaussianNB
 from sklearn.linear_model import LogisticRegression
+from catboost import CatBoostClassifier
 
 from sklearn import preprocessing
 from sklearn.impute import SimpleImputer
@@ -581,6 +583,89 @@ Rf.fit(X_train, y_train)
 
 train_pred =Rf.predict(X_train)
 test_pred =Rf.predict(X_test)
+
+print(classification_report(y_test,test_pred))
+
+
+# ## CatBoost
+
+# In[57]:
+
+
+model = CatBoostClassifier(iterations=100)
+
+
+# In[58]:
+
+
+model.fit(X_train, y_train)
+
+
+# In[60]:
+
+
+test_pred = model.predict(X_test)
+train_pred =model.predict(X_train)
+
+
+# In[61]:
+
+
+
+print(classification_report(y_test,test_pred))
+
+
+# ## Gradient Boosting
+
+# In[62]:
+
+
+gradient_booster = GradientBoostingClassifier(learning_rate=0.1)
+gradient_booster.get_params()
+
+
+# In[63]:
+
+
+gradient_booster.fit(X_train,y_train)
+
+
+# In[64]:
+
+
+test_pred = gradient_booster.predict(X_test)
+train_pred =gradient_booster.predict(X_train)
+
+
+# In[66]:
+
+
+print(classification_report(y_test,test_pred))
+
+
+# ## Ada Boost
+
+# In[67]:
+
+
+model = AdaBoostClassifier()
+
+
+# In[68]:
+
+
+model.fit(X_train, y_train)
+
+
+# In[69]:
+
+
+test_pred = model.predict(X_test)
+train_pred =model.predict(X_train)
+
+
+# In[70]:
+
 
 print(classification_report(y_test,test_pred))
 
